@@ -3,6 +3,7 @@ import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
+// @ts-expect-error
 import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
