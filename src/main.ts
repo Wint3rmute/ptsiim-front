@@ -10,6 +10,7 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  // @ts-expect-error
   vuetify,
   render: (h) => h(App),
 }).$mount('#app');
