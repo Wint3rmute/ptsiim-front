@@ -113,8 +113,8 @@ export default Vue.extend({
       },
       {
         text: 'doge',
-        href: 'https://knowyourmeme.com/photos/1751239-cheems'
-      }
+        href: 'https://knowyourmeme.com/photos/1751239-cheems',
+      },
     ],
     importantLinks: [
       {
