@@ -51,7 +51,5 @@ import Store from "@/store/index.ts";
 @Component
 export default class UserProfileButton extends Vue {
   dialog = false;
-
-  
 }
 </script>
