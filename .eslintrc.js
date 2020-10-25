@@ -16,6 +16,12 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'quotes': 'off',
     'indent': 'off',
+    'comma-dangle': 'off',
+    'max-len': 'off',
+    'class-methods-use-this': 'off',
+    'import/extensions': 'off',
+    'arrow-parens': 'off',
+    'lines-between-class-members': 'off',
   },
   overrides: [
     {

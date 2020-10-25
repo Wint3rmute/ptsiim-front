@@ -20,17 +20,25 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
-      <span class="mr-2">Latest Release</span>
-      <v-icon>mdi-open-in-new</v-icon>
-    </v-btn>
+    <SignInDialog v-if="!$store.getters.getLoggedIn" />
+    <SignUpDialog v-if="!$store.getters.getLoggedIn" />
+
+    <UserProfileButton v-if="$store.getters.getLoggedIn" />
   </v-app-bar>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Component, Vue } from "vue-property-decorator";
+import SignUpDialog from "./auth/SignUpDialog.vue";
+import SignInDialog from "./auth/SignInDialog.vue";
+import UserProfileButton from "./UserProfileButton.vue";
 
-export default Vue.extend({
-  name: "NavBar",
-});
+@Component({
+  components: {
+    SignUpDialog,
+    SignInDialog,
+    UserProfileButton
+  }
+})
+export default class NavBar extends Vue {}
 </script>

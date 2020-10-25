@@ -1,8 +1,6 @@
 <template>
   <v-app>
-
-    <NavBar/>
-    navbar?
+    <NavBar />
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
@@ -28,6 +26,6 @@ export default Vue.extend({
 
   data: () => ({
     //
-  }),
+  })
 });
 </script>
