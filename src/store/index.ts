@@ -11,12 +11,17 @@ export default new Vuex.Store({
     username: '',
     email: '',
     userRole: '',
+    accessToken: '',
 
     testValue: false
   },
   mutations: {
     setTestValue(state, value) {
       state.testValue = value;
+    },
+
+    setAccessToken(state, value) {
+      state.accessToken = value;
     },
 
     setWrongPassword(state, value) {
@@ -33,10 +38,22 @@ export default new Vuex.Store({
 
       API.signIn(loginData.username, loginData.password).then(
         response => {
-          console.log('Response');
-          console.log(response);
-          context.commit('setLoggedIn', true);
-          context.commit('setWrongPassword', false);
+          // console.log('Response');
+          // console.log(response);
+
+          API.getUserDetails(response.data.accessToken).then(
+            userDetailsResponse => {
+              context.commit('setLoggedIn', true);
+              context.commit('setWrongPassword', false);
+              context.commit('setAccessToken', response.data.accessToken);
+
+              console.log("userDetailsResponse");
+              console.log(userDetailsResponse);
+            }
+          ).catch(userDetailsError => {
+            console.log("userDetailsError");
+            console.log(userDetailsError);
+          });
         }
       ).catch(
         error => {
@@ -53,9 +70,8 @@ export default new Vuex.Store({
 
   getters: {
     getTestValue: state => state.testValue,
-
     getWrongPassword: state => state.wrongPassword,
-
-    getLoggedIn: state => state.loggedIn
+    getLoggedIn: state => state.loggedIn,
+    getAccessToken: state => state.accessToken
   }
 });

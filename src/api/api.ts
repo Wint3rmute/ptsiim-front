@@ -27,4 +27,13 @@ export default class API {
             }
         );
     }
+    static getUserDetails(accessToken: string) {
+        return axios.get(
+            `${API_BASE_URL}/user/getDetails`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+        );
+    }
 }
