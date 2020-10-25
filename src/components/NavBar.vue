@@ -1,12 +1,20 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app color="secondary" dark>
     <div class="d-flex align-center">
       <v-img
         alt="Vuetify Logo"
         class="shrink mr-2"
         contain
-        :src="require('../assets/w4_med.png')"
-        width="100"
+        :src="require('../assets/w4_med_icon.png')"
+        width="45"
+      />
+
+      <v-img
+        alt="Vuetify Logo"
+        class="shrink mr-2"
+        contain
+        :src="require('../assets/w4_med_text.png')"
+        width="200"
       />
     </div>
 
