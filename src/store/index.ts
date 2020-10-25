@@ -4,74 +4,91 @@ import API from '@/api/api.ts';
 
 Vue.use(Vuex);
 
+interface UserData {
+  username: string;
+  email: string;
+  userRoles: string[];
+  accessToken: string;
+  firstName: string;
+  lastName: string;
+}
+
 export default new Vuex.Store({
   state: {
     loggedIn: false,
     wrongPassword: false,
-    username: '',
-    email: '',
-    userRole: '',
-    accessToken: '',
-
-    testValue: false
+    userData: {} as UserData,
   },
   mutations: {
-    setTestValue(state, value) {
-      state.testValue = value;
+
+    setLoggedIn(state, value) {
+      state.loggedIn = value;
     },
 
-    setAccessToken(state, value) {
-      state.accessToken = value;
+    setUserData(state, userData: UserData) {
+      state.userData = userData;
     },
 
     setWrongPassword(state, value) {
       state.wrongPassword = value;
     },
 
-    setLoggedIn(state, value) {
-      state.loggedIn = value;
-    }
   },
   actions: {
-    signIn(context, loginData) {
+    async signIn(context, loginData) {
       console.log(`logging in with u: ${loginData.username} and p: ${loginData.password}`);
 
-      API.signIn(loginData.username, loginData.password).then(
-        response => {
-          // console.log('Response');
-          // console.log(response);
+      /**
+       * First, sign in with the provided data
+       */
+      const signInResponse = await API.signIn(loginData.username, loginData.password);
 
-          API.getUserDetails(response.data.accessToken).then(
-            userDetailsResponse => {
-              context.commit('setLoggedIn', true);
-              context.commit('setWrongPassword', false);
-              context.commit('setAccessToken', response.data.accessToken);
+      if (signInResponse.status !== 200) {
+        context.commit('setWrongPassword', true);
+        context.commit('setLoggedIn', false);
+        return;
+      }
 
-              console.log("userDetailsResponse");
-              console.log(userDetailsResponse);
-            }
-          ).catch(userDetailsError => {
-            console.log("userDetailsError");
-            console.log(userDetailsError);
-          });
-        }
-      ).catch(
-        error => {
-          console.log("Error");
-          console.log(error);
-          context.commit('setWrongPassword', true);
-          context.commit('setLoggedIn', false);
-        }
-      );
+      /**
+       * After successful sign in, download the user's details
+       */
+      const userDataResponse = await API.getUserDetails(signInResponse.data.accessToken);
+
+      if (userDataResponse.status !== 200) {
+        // TODO: HANDLE. Should never happen
+        alert("This should've never happened. WTF");
+        return;
+      }
+
+      /**
+       * If we are signed AND we have the user data - we can commit
+       * the mutations setting the login state and user info
+       */
+      context.commit('setLoggedIn', true);
+      context.commit('setWrongPassword', false);
+      // context.commit('setAccessToken', signInResponse.data.accessToken);
+
+      console.log(userDataResponse.data.roles);
+
+      context.commit('setUserData', {
+        username: loginData.username,
+        email: userDataResponse.data.email,
+        userRoles: userDataResponse.data.roles,
+        accessToken: signInResponse.data.accessToken,
+        firstName: userDataResponse.data.firstname,
+        lastName: userDataResponse.data.lastname
+      });
+
+      console.log(signInResponse);
+      console.log(userDataResponse);
     }
   },
   modules: {
   },
 
   getters: {
-    getTestValue: state => state.testValue,
     getWrongPassword: state => state.wrongPassword,
     getLoggedIn: state => state.loggedIn,
-    getAccessToken: state => state.accessToken
+    // getAccessToken: state => state.accessToken
   }
 });
