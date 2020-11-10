@@ -11,15 +11,13 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title
-                  v-text="item.creationDate + ' ' + item.time"
+                  v-text="item.creationDate"
                 ></v-list-item-title>
                 <v-list-item-subtitle
                   v-text="item.doctor.firstname + ' ' + item.doctor.lastname"
                 ></v-list-item-subtitle>
               </v-list-item-content>
-              <v-icon v-on:click="deleteUserBooking(item.booking_id)"
-                >mdi-delete</v-icon
-              >
+              <v-icon v-on:click="deleteUserBooking(item.booking_id)">mdi-delete</v-icon>
             </v-list-item>
           </v-list-item-group>
         </div>

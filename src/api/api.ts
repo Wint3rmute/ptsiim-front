@@ -55,12 +55,12 @@ export default class API {
         );
     }
     static deleteUserBooking(accessToken: string, bookingId: number) {
-        return axios.post(
-            `${API_BASE_URL}/booking/delete/${bookingId}`, {
+        return axios({
+            method: 'post',
+            url: `${API_BASE_URL}/booking/delete/${bookingId}`,
             headers: {
-                Authorization: `Bearer ${accessToken}`
+                Authorization: `Bearer ${accessToken}`,
             }
-        }
-        );
+        });
     }
 }
