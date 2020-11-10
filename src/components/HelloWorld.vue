@@ -18,13 +18,24 @@
         </p>
       </v-col>
     </v-row>
+    <v-row>
+      <ClientBookings v-if="$store.getters.getLoggedIn && $store.getters.getUserData.userRoles[0].name == 'ROLE_CLIENT'"/>
+      <DoctorBookings v-if="$store.getters.getLoggedIn && $store.getters.getUserData.userRoles[0].name == 'ROLE_DOCTOR'"/>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import ClientBookings from "./bookings/ClientBookings.vue";
+import DoctorBookings from "./bookings/DoctorBookings.vue";
 
-@Component
+@Component({
+  components: {
+    ClientBookings,
+    DoctorBookings,
+  },
+})
 export default class HelloWorld extends Vue {
   test() {
     console.log("Test");

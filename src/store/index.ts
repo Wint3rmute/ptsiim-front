@@ -89,6 +89,7 @@ export default new Vuex.Store({
   getters: {
     getWrongPassword: state => state.wrongPassword,
     getLoggedIn: state => state.loggedIn,
+    getUserData: state => state.userData,
     // getAccessToken: state => state.accessToken
   }
 });

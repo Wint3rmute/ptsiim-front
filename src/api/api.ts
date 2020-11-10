@@ -36,4 +36,31 @@ export default class API {
         }
         );
     }
+    static getUserBookings(accessToken: string) {
+        return axios.get(
+            `${API_BASE_URL}/booking/getMy`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+        );
+    }
+    static getAllUsers(accessToken: string) {
+        return axios.get(
+            `${API_BASE_URL}/user/getUsers`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+        );
+    }
+    static deleteUserBooking(accessToken: string, bookingId: number) {
+        return axios.post(
+            `${API_BASE_URL}/booking/delete/${bookingId}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }
+        );
+    }
 }
