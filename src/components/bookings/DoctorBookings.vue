@@ -1,15 +1,15 @@
 <template>
   <v-row>
     <v-col>
-        <v-spacer>
-            <v-toolbar-title >My schedule</v-toolbar-title>
-        </v-spacer>
+      <v-spacer>
+        <v-toolbar-title>My schedule</v-toolbar-title>
+      </v-spacer>
       <v-sheet height="400">
         <v-calendar
           ref="calendar"
           :now="today"
           :value="today"
-          :events="doctorBookings.registrationDate"
+          :attributes="getDoctorBookings"
           color="primary"
           type="week"
         ></v-calendar>
@@ -24,7 +24,7 @@ import Store from "@/store/index.ts";
 
 @Component
 export default class DoctorBookings extends Vue {
-    doctorBookings = [];
+  doctorBookings = [];
 
   mounted() {
     API.getUserBookings(this.$store.getters.getUserData.accessToken).then(
@@ -44,5 +44,14 @@ export default class DoctorBookings extends Vue {
       this.$forceUpdate();
     });
   }
+
+  // computed: {
+  //     getDoctorBookings(){
+  //         return this.doctorBookings.map(booking = > ({
+  //             key: `booking.${booking.booking_id}`,
+  //             dates: booking.date,
+  //         }));
+  //     },
+  // }
 }
 </script>
