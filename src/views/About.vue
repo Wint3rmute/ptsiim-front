@@ -38,8 +38,8 @@
             v-model="value"
             :now="value"
             color="primary"
-            :event-overlap-mode="mode"
             :event-overlap-threshold="30"
+            @click:date="clickOnCalendarDay"
           ></v-calendar>
         </v-sheet>
       </div>
@@ -61,7 +61,7 @@ interface ReservationDoctorData {
 export default class About extends Vue {
   availableDoctors: ReservationDoctorData[] = [];
   selectedItem = 0;
-  value = new Date().toISOString().split('T')[0];
+  value = new Date().toISOString().split("T")[0];
 
   mounted() {
     API.getAllUsers(this.$store.getters.getUserData.accessToken).then(
@@ -71,6 +71,18 @@ export default class About extends Vue {
         this.availableDoctors = response.data;
       }
     );
+  }
+
+  clickOnCalendarDay(day: any) {
+    const doctorID: number = this.availableDoctors[this.selectedItem].id;
+
+    API.getAvailableHours(
+      this.$store.getters.getUserData.accessToken,
+      doctorID,
+      day.date
+    ).then((r) => {
+      console.log(r);
+    });
   }
 }
 </script>

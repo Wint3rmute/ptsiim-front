@@ -36,6 +36,17 @@ export default class API {
         }
         );
     }
+
+    static getAvailableHours(accessToken: string, doctorID: number, date: string) {
+        return axios({
+            method: 'get',
+            url: `${API_BASE_URL}/user/availableHours/${doctorID}/${date}`,
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+    }
+
     static getUserBookings(accessToken: string) {
         return axios.get(
             `${API_BASE_URL}/booking/getMy`, {
