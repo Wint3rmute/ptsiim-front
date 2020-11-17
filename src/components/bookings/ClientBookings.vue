@@ -2,17 +2,21 @@
   <div>
     <section>
       <router-link to="/about">
-        <v-btn large color="primary" elevation="2">Book a visit now</v-btn>
+        <v-row class="justify-center">
+          <v-btn large color="primary" elevation="2">Book a visit now</v-btn>
+        </v-row>
       </router-link>
     </section>
-    <br>
+    <br />
     <section>
-      <h1 class="v-heading text-h3">Your bookings</h1>
+      <h1 class="v-heading text-h3 text-center">Your bookings</h1>
+      <br />
       <v-row>
         <BookingCard
           v-for="booking in clientBookings"
           v-bind:key="booking.booking_id"
           :booking="booking"
+          @delete-booking="deleteUserBooking"
         />
       </v-row>
     </section>
@@ -51,7 +55,17 @@ export default class ClientBookings extends Vue {
     API.getUserBookings(this.$store.getters.getUserData.accessToken).then(
       (response) => {
         console.log(response);
-        this.clientBookings = response.data;
+        this.clientBookings = response.data.filter(
+          (booking: any, index: number, array: any) => {
+            const dateToday = new Date();
+            const bookingDate = new Date(`${booking.date}T00:00:00`);
+
+            console.log(dateToday);
+            console.log(bookingDate);
+
+            return dateToday < bookingDate;
+          }
+        );
       }
     );
   }

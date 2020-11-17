@@ -30,11 +30,11 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-divider inset></v-divider>
+        <v-divider></v-divider>
 
         <v-list-item>
           <v-list-item-icon>
-            <v-icon color="indigo"> mdi-account </v-icon>
+            <v-icon color="secondary"> mdi-account </v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -48,7 +48,7 @@
 
         <v-list-item>
           <v-list-item-icon>
-            <v-icon color="indigo"> mdi-email </v-icon>
+            <v-icon color="secondary"> mdi-email </v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -57,11 +57,11 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-divider inset></v-divider>
+        <v-divider></v-divider>
 
         <v-list-item>
           <v-list-item-icon>
-            <v-icon color="indigo"> mdi-map-marker </v-icon>
+            <v-icon color="primary"> mdi-map-marker </v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -70,14 +70,15 @@
           </v-list-item-content>
         </v-list-item>
 
-                <v-divider inset></v-divider>
+        <v-divider></v-divider>
 
-        <v-list-item>
+        <v-list-item v-on:click="$emit('delete-booking', booking.booking_id)">
           <v-list-item-icon>
-            <v-icon color="indigo"> mdi-delete </v-icon>
+            <v-icon color="red"> mdi-delete </v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Cancel Booking</v-list-item-title>
+            <v-list-item-title>Cancel booking</v-list-item-title>
+            <v-list-item-subtitle>Cancel booking</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
