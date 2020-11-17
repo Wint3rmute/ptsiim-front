@@ -1,21 +1,25 @@
 <template>
   <v-app-bar app color="secondary" dark>
     <div class="d-flex align-center">
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        :src="require('../assets/w4_med_icon.png')"
-        width="45"
-      />
+      <router-link to="/">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          :src="require('../assets/w4_med_icon.png')"
+          width="45"
+        />
+      </router-link>
 
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        :src="require('../assets/w4_med_text.png')"
-        width="200"
-      />
+      <router-link to="/">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          :src="require('../assets/w4_med_text.png')"
+          width="200"
+        />
+      </router-link>
     </div>
 
     <v-spacer></v-spacer>
@@ -37,8 +41,8 @@ import UserProfileButton from "./UserProfileButton.vue";
   components: {
     SignUpDialog,
     SignInDialog,
-    UserProfileButton
-  }
+    UserProfileButton,
+  },
 })
 export default class NavBar extends Vue {}
 </script>
