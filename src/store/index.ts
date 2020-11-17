@@ -20,6 +20,20 @@ export default new Vuex.Store({
     userData: {} as UserData,
   },
   mutations: {
+    initialiseStore(state) {
+      console.log("Store init");
+
+      const userDataRaw: null | string = localStorage.getItem('userData');
+      if (userDataRaw == null) {
+        console.log("No saved user data found");
+        return;
+      }
+
+      state.userData = JSON.parse(userDataRaw);
+      console.log(`Found user data for ${state.userData.username}`);
+
+      state.loggedIn = true;
+    },
 
     setLoggedIn(state, value) {
       state.loggedIn = value;
@@ -70,17 +84,20 @@ export default new Vuex.Store({
 
       console.log(userDataResponse.data.roles);
 
-      context.commit('setUserData', {
+      const userData: UserData = {
         username: loginData.username,
         email: userDataResponse.data.email,
         userRoles: userDataResponse.data.roles,
         accessToken: signInResponse.data.accessToken,
         firstName: userDataResponse.data.firstname,
         lastName: userDataResponse.data.lastname
-      });
+      };
 
-      console.log(signInResponse);
-      console.log(userDataResponse);
+      context.commit('setUserData', userData);
+      localStorage.setItem('userData', JSON.stringify(userData));
+
+      // console.log(signInResponse);
+      // console.log(userDataResponse);
     }
   },
   modules: {
