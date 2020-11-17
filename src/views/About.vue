@@ -35,8 +35,8 @@
         <v-sheet height="600">
           <v-calendar
             ref="calendar"
-            v-model="value"
-            :now="value"
+            v-model="selectedDate"
+            :now="selectedDate"
             color="primary"
             :event-overlap-threshold="30"
             @click:date="clickOnCalendarDay"
@@ -44,12 +44,40 @@
         </v-sheet>
       </div>
     </section>
+    <section>
+      <h3>Pick a time</h3>
+
+      <v-row>
+        <v-col
+          v-bind:key="availableHour"
+          v-for="availableHour in availableHours"
+        >
+          <v-btn
+            block
+            color="primary"
+            v-on:click="displayConfirmationDialog(availableHour)"
+          >
+            {{ availableHour }} is available
+          </v-btn>
+          <br />
+          <!-- </div> -->
+        </v-col>
+      </v-row>
+      <CreateABookingConfirmation
+        :dialog="showConfirmationDialog"
+        :date="selectedDate"
+        :time="selectedTime"
+        :doctorNameSurname="selectedDoctorNameSurname"
+        @make-reservation="makeReservation"
+      />
+    </section>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import API from "@/api/api.ts";
+import CreateABookingConfirmation from "@/components/bookings/CreateABookingConfirmation.vue";
 
 interface ReservationDoctorData {
   id: number;
@@ -57,11 +85,21 @@ interface ReservationDoctorData {
   lastname: string;
 }
 
-@Component
+@Component({
+  components: {
+    CreateABookingConfirmation,
+  },
+})
 export default class About extends Vue {
   availableDoctors: ReservationDoctorData[] = [];
   selectedItem = 0;
-  value = new Date().toISOString().split("T")[0];
+
+  selectedDate = new Date().toISOString().split("T")[0];
+  selectedTime = "";
+  selectedDoctorNameSurname = "";
+
+  availableHours = [];
+  showConfirmationDialog = false;
 
   mounted() {
     API.getAllUsers(this.$store.getters.getUserData.accessToken).then(
@@ -81,7 +119,30 @@ export default class About extends Vue {
       doctorID,
       day.date
     ).then((r) => {
+      console.log("Available hours!!");
       console.log(r);
+      console.log(r.data);
+      this.availableHours = r.data;
+    });
+  }
+
+  displayConfirmationDialog(time: string) {
+    const selectedDoctor = this.availableDoctors[this.selectedItem];
+    this.selectedDoctorNameSurname = `${selectedDoctor.firstname} ${selectedDoctor.lastname}`;
+    this.selectedTime = time;
+    this.showConfirmationDialog = true;
+  }
+
+  makeReservation() {
+    console.log("Making a reservation, bitches");
+    API.createUserBooking(
+      this.$store.getters.getUserData.accessToken,
+      this.availableDoctors[this.selectedItem].id,
+      this.selectedDate,
+      this.selectedTime
+    ).then((r) => {
+      console.log(r);
+      window.location.href = '/';
     });
   }
 }

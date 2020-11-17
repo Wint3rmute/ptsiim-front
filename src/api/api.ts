@@ -65,6 +65,19 @@ export default class API {
         }
         );
     }
+    static createUserBooking(accessToken: string, doctorID: number, date: string, time: string) {
+        return axios({
+            method: 'post',
+            url: `${API_BASE_URL}/booking/add/${doctorID}`,
+            data: {
+                time,
+                date,
+            },
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            }
+        });
+    }
     static deleteUserBooking(accessToken: string, bookingId: number) {
         return axios({
             method: 'post',
