@@ -55,17 +55,30 @@ export default class ClientBookings extends Vue {
     API.getUserBookings(this.$store.getters.getUserData.accessToken).then(
       (response) => {
         console.log(response);
-        this.clientBookings = response.data.filter(
-          (booking: any, index: number, array: any) => {
-            const dateToday = new Date();
-            const bookingDate = new Date(`${booking.date}T00:00:00`);
 
-            console.log(dateToday);
-            console.log(bookingDate);
+        // WARNING: this displays all the reservations - also those in the past
+        this.clientBookings = response.data;
+        /**
+         * This won't work, idk why.
+         * Cannot get date comparison to work, it always
+         * returns either true or false, depending on the
+         * operator i use (> or <), the dates don't matter
+         */
+        // this.clientBookings = response.data.filter(
+        //   (booking: any, index: number, array: any) => {
+        //     const dateToday = new Date();
 
-            return dateToday < bookingDate;
-          }
-        );
+        //     console.log(booking.date);
+        //     const bookingDate = new Date(`${booking.date}`);
+
+        //     console.log(bookingDate);
+        //     console.log(dateToday);
+
+        //     return dateToday > bookingDate;
+        //     // return true;
+        //     // return false;
+        //   }
+        // );
       }
     );
   }
