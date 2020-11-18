@@ -1,6 +1,6 @@
 <template>
   <v-col sm="6">
-    <v-card max-width="375" class="mx-auto">
+    <v-card max-width="475" class="mx-auto">
       <v-img :src="require('@/assets/doctoricon.png')" height="200px" dark>
         <v-row class="fill-height">
           <v-spacer></v-spacer>
@@ -72,7 +72,7 @@
 
         <v-divider></v-divider>
 
-        <v-list-item v-on:click="$emit('delete-booking', booking.booking_id)">
+        <v-list-item v-on:click="displayDeleteBookingDialog()">
           <v-list-item-icon>
             <v-icon color="red"> mdi-delete </v-icon>
           </v-list-item-icon>
@@ -82,14 +82,29 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+    <DeleteABookingConfirmation
+      :dialog="showDeleteBookingDialog"
+      @delete-reservation="$emit('delete-booking', booking.booking_id)"
+    />
     </v-card>
   </v-col>
 </template>
 <script>
 import { Component, Vue, Prop } from "vue-property-decorator";
+import DeleteABookingConfirmation from "./DeleteABookingConfirmation.vue";
 
-@Component
+@Component({
+    components: {
+        DeleteABookingConfirmation,
+    },
+})
 export default class BookingCard extends Vue {
   @Prop() booking;
+
+  showDeleteBookingDialog = false;
+
+  displayDeleteBookingDialog() {
+      this.showDeleteBookingDialog = true;
+  }
 }
 </script>

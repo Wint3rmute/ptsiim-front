@@ -71,12 +71,13 @@ export default class ClientBookings extends Vue {
   }
 
   deleteUserBooking(bookingId: number) {
+    console.log("Deleting booking...");
     API.deleteUserBooking(
       this.$store.getters.getUserData.accessToken,
       bookingId
     ).then((response) => {
       console.log(response);
-      this.$forceUpdate();
+      window.location.href = '/';
     });
   }
 }
