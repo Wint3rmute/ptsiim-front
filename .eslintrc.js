@@ -22,6 +22,7 @@ module.exports = {
     'import/extensions': 'off',
     'arrow-parens': 'off',
     'lines-between-class-members': 'off',
+    'no-restricted-syntax': 'off',
   },
   overrides: [
     {
